@@ -20,7 +20,7 @@ CC_FLAGS = $(DEBUG) $(ALL_WARNINGS) $(CPP_11)
 #  make exe: compiles the program and runs exe. 
 #------------------------------------------------------------
 
-OBJS = main.o algos.o strings.o
+OBJS = main.o algos.o pointers.o strings.o
 
 EXEC_NAME = out
 
@@ -32,6 +32,9 @@ main.o: main.cpp
 
 algos.o: algos.cpp
 	$(CC) $(CC_FLAGS) -c algos.cpp
+
+pointers.o: pointers.cpp
+	$(CC) $(CC_FLAGS) -c pointers.cpp
 
 strings.o: strings.cpp
 	$(CC) $(CC_FLAGS) -c strings.cpp
