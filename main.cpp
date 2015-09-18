@@ -1,6 +1,8 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 #include <functional>
+#include <memory>
+#include <string>
 
 TEST_CASE("bind test", "[misc]") {
   class Number {
@@ -25,6 +27,7 @@ TEST_CASE("bool compare test", "[misc]") {
 
 TEST_CASE("bool to int implicit conversion test", "[misc]") {
   const bool v1 = true, v2 = false, v3 = true;
+
   REQUIRE(v1 + v2 == 1);
   REQUIRE(2 * v1 == 2);
   REQUIRE(v1 + v3 == 2);
@@ -42,4 +45,69 @@ TEST_CASE("enum ordering test", "[misc]") {
     REQUIRE(Values::FIRST > Values::SECOND);
     REQUIRE(Values::SECOND < Values::FIRST);
   }
+}
+
+TEST_CASE("inheritance test", "[misc]") {
+  class Base {
+  public:
+    virtual std::string f1() const { return "base"; }
+    std::string f2() const { return "base"; }
+  };
+
+  class Derived: public Base {
+  public:
+    std::string f1() const { return "derived"; }
+    std::string f2() const { return "derived"; }
+  };
+
+  class User {
+  public:
+    std::string g(const Base& a) const { return a.f2(); }
+    std::string g(const Derived& a) const { return a.f2(); }
+  };
+
+
+  SECTION("testing virtual function binding") {
+    std::unique_ptr<Base> b(new Derived);
+    REQUIRE(b->f1() == "derived");
+  }
+
+  SECTION("testing choice of function for base pointer pointing to derived instance") {
+    std::unique_ptr<Base> b(new Derived);
+    User u;
+    REQUIRE(u.g(*b) == "base");
+  }
+}
+
+TEST_CASE("meyer's singleton test", "[misc]") {
+  class MeyerSingleton {
+  public:
+    static const MeyerSingleton& instance() {
+      static MeyerSingleton s;
+      return s;
+    }
+
+    int getCount() const { return _count; }
+    void incrementCount() const { ++_count; }
+
+  private:
+    MeyerSingleton(): _count(0) {}
+    ~MeyerSingleton() {}
+
+    mutable int _count;
+  };
+
+  REQUIRE(MeyerSingleton::instance().getCount() == 0);
+
+  MeyerSingleton::instance().incrementCount();
+
+  REQUIRE(MeyerSingleton::instance().getCount() == 1);
+}
+
+TEST_CASE("test to use ternary operator as a statement", "[misc]") {
+  int a = 0;
+  true ? a = 1 : a = 2;
+  REQUIRE(a == 1);
+  false ? a = 1 : a = 2;
+  REQUIRE(a == 2);
 }
