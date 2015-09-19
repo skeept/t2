@@ -1,3 +1,4 @@
+# MAKEFILE WORKS ONLY IN UBUNTU. NEED TO FIX IT NOT WORKING ON MAC
 # ---------------------------------------------------------------------
 # Compiler
 # ---------------------------------------------------------------------
@@ -22,6 +23,8 @@ CC_FLAGS = $(DEBUG) $(ALL_WARNINGS) $(CPP_11) -I$(BOOST_INC_DIR)
 #  make exe: compiles the program and runs exe. 
 #------------------------------------------------------------
 
+SRC_DIR = cpp-tests
+
 OBJS = main.o algos.o boost.o pointers.o strings.o
 
 EXEC_NAME = out
@@ -29,20 +32,20 @@ EXEC_NAME = out
 all: $(OBJS)
 	$(CC) $(OBJS) $(CC_FLAGS) -o $(EXEC_NAME)
 
-main.o: main.cpp
-	$(CC) $(CC_FLAGS) -c main.cpp
+main.o: $(SRC_DIR)/main.cpp
+	$(CC) $(CC_FLAGS) -c $(SRC_DIR)/main.cpp
 
-algos.o: algos.cpp
-	$(CC) $(CC_FLAGS) -c algos.cpp
+algos.o: $(SRC_DIR)/algos.cpp
+	$(CC) $(CC_FLAGS) -c $(SRC_DIR)/algos.cpp
 
-boost.o: boost.cpp
-	$(CC) $(CC_FLAGS) -c boost.cpp
+boost.o: $(SRC_DIR)/boost.cpp
+	$(CC) $(CC_FLAGS) -c $(SRC_DIR)/boost.cpp
 
-pointers.o: pointers.cpp
-	$(CC) $(CC_FLAGS) -c pointers.cpp
+pointers.o: $(SRC_DIR)/pointers.cpp
+	$(CC) $(CC_FLAGS) -c $(SRC_DIR)/pointers.cpp
 
-strings.o: strings.cpp
-	$(CC) $(CC_FLAGS) -c strings.cpp
+strings.o: $(SRC_DIR)/strings.cpp
+	$(CC) $(CC_FLAGS) -c $(SRC_DIR)/strings.cpp
 
 
 exe: all
