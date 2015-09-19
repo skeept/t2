@@ -7,20 +7,22 @@ CC  = g++
 # ---------------------------------------------------------------------
 # Compiler options
 # ---------------------------------------------------------------------
-DEBUG = -g
-
 ALL_WARNINGS = -Wall
+
+BOOST_INC_DIR = ~/boost_1_59_0
 
 CPP_11 = -std=c++11
 
-CC_FLAGS = $(DEBUG) $(ALL_WARNINGS) $(CPP_11)
+DEBUG = -g
+
+CC_FLAGS = $(DEBUG) $(ALL_WARNINGS) $(CPP_11) -I$(BOOST_INC_DIR)
 
 #------------------------------------------------------------
 #  make all: compiles the program. 
 #  make exe: compiles the program and runs exe. 
 #------------------------------------------------------------
 
-OBJS = main.o algos.o pointers.o strings.o
+OBJS = main.o algos.o boost.o pointers.o strings.o
 
 EXEC_NAME = out
 
@@ -32,6 +34,9 @@ main.o: main.cpp
 
 algos.o: algos.cpp
 	$(CC) $(CC_FLAGS) -c algos.cpp
+
+boost.o: boost.cpp
+	$(CC) $(CC_FLAGS) -c boost.cpp
 
 pointers.o: pointers.cpp
 	$(CC) $(CC_FLAGS) -c pointers.cpp
