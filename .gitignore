@@ -55,3 +55,6 @@ project.xcworkspace/
 *.xccheckout
 *.moved-aside
 *.xcuserstate
+*.opensdf
+*.sdf
+Debug/
